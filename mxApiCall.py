@@ -1,6 +1,7 @@
 import requests
 import json
-
+from dotenv import load_dotenv
+import os
 
 def mxGetUser():
     #workorder_ID = input("Enter Workorder ID: ")
@@ -8,10 +9,11 @@ def mxGetUser():
     #API call
     url = "https://api.getmaintainx.com/v1/workorders/"+workorder_ID+"?expand=expenditures&expand=expenditures"
 
+    load_dotenv()
     payload={}
     headers = {
     'Accept': 'application/json',
-    'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIwMDYwNCwib3JnYW5pemF0aW9uSWQiOjc4NDAwLCJpYXQiOjE2NTE1OTk0ODIsInN1YiI6IlJFU1RfQVBJX0FVVEgiLCJqdGkiOiI5MzhkYzkxNC01OWVkLTQ0ZmMtYjFjMC1kZmNmMDMyZWNkYjUifQ.za6q4ZBlUlCTNyVJStr2Qrvnt8x7BRO05m46dYcMakY'
+    'Authorization': 'Bearer '+os.getenv("API_KEY")
     }
 
     response = requests.request("GET", url, headers=headers, data=payload)
@@ -43,4 +45,6 @@ def mxGetUser():
 
     p1 = MxUser(field_array[0], field_array[1], field_array[2], field_array[3])
 
+
+    
     return p1
