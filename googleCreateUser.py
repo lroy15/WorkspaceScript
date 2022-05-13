@@ -21,7 +21,7 @@ def create_keyfile_dict():
         "type": os.environ.get("ACC_TYPE"),
         "project_id": os.environ.get("PROJ_ID"),
         "private_key_id": os.environ.get("PRIV_KEY_ID"),
-        "private_key": os.environ.get("PRIV_KEY"),
+        "private_key": os.environ.get("PRIV_KEY").replace('\\n', '\n'),
         "client_email": os.environ.get("CLI_EMAIL"),
         "client_id": os.environ.get("CLI_ID"),
         "auth_uri": os.environ.get("AUTH_URI"),
@@ -44,19 +44,7 @@ def create_directory_service(user_email):
 
     credentials = ServiceAccountCredentials.from_json_keyfile_dict(
 
-        #create_keyfile_dict()
-        {
-        "type": os.environ.get("ACC_TYPE"),
-        "project_id": os.environ.get("PROJ_ID"),
-        "private_key_id": os.environ.get("PRIV_KEY_ID"),
-        "private_key": os.environ.get("PRIV_KEY").replace('\\n', '\n'),
-        "client_email": os.environ.get("CLI_EMAIL"),
-        "client_id": os.environ.get("CLI_ID"),
-        "auth_uri": os.environ.get("AUTH_URI"),
-        "token_uri": os.environ.get("TOKEN_URI"),
-        "auth_provider_x509_cert_url": os.environ.get("AUTH_PROV"),
-        "client_x509_cert_url": os.environ.get("CLI_URL")
-    },
+        create_keyfile_dict(),
         'https://www.googleapis.com/auth/admin.directory.user') #scope
 
     credentials = credentials.create_delegated(user_email)
