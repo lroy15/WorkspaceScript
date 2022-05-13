@@ -1,15 +1,17 @@
 from mxApiCall import mxGetUser
-
+from dotenv import load_dotenv
+import os
 
 from googleapiclient.discovery import build
 from oauth2client.service_account import ServiceAccountCredentials
 
+load_dotenv()
 mxUser = mxGetUser()
 # Email of the Service Account
 SERVICE_ACCOUNT_EMAIL = 'julien@intricate-dryad-349319.iam.gserviceaccount.com'
 
 # Path to the Service Account's Private Key file
-SERVICE_ACCOUNT_FILE_PATH = 'v1/credentialsfile.json'
+SERVICE_ACCOUNT_FILE_PATH = 'credentialsfile.json'
 
 def create_directory_service(user_email):
     """Build and returns an Admin SDK Directory service object authorized with the service accounts
@@ -32,7 +34,7 @@ def create_directory_service(user_email):
 
     body = { "name": 
             {"familyName":mxUser.name.split(' ')[1] , "givenName": mxUser.name.split(' ')[0]}, 
-            "password": "test1234", 
+            "password": os.environ.get("WS_PW"), 
             "primaryEmail": mxUser.email+'@ljroy.com',
             "organizations": [
                 {
@@ -53,9 +55,9 @@ mxUserFirstName = mxUser.name.split(' ')[0]
 mxUserLastName = mxUser.name.split(' ')[1]
 
 print(f'==User info==\nFirst Name : {mxUserFirstName}\nLast Name : {mxUserLastName}\nEmail : {mxUser.email}@ljroy.com\nTitle : {mxUser.title}\nDepartment : {mxUser.department}')
-confirmation = input('Is the information correct? Y/N: ')
+confirmation = input('Is the information correct? y/n: ')
 
-if confirmation != 'Y' :
+if confirmation != 'y' :
   print('Cancelling user creation')
 
 

@@ -13,7 +13,7 @@ def mxGetUser():
     payload={}
     headers = {
     'Accept': 'application/json',
-    'Authorization': 'Bearer '+os.getenv("API_KEY")
+    'Authorization': 'Bearer '+os.environ.get("API_KEY")
     }
 
     response = requests.request("GET", url, headers=headers, data=payload)
@@ -45,6 +45,7 @@ def mxGetUser():
 
     p1 = MxUser(field_array[0], field_array[1], field_array[2], field_array[3])
 
+    return p1
 
     
-    return p1
+
