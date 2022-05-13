@@ -8,7 +8,7 @@ echo $b
 echo $c
 op item create --category login --title "$c" --vault Private --generate-password='letters,digits,symbols,12' username="$b@domain.com"
 
-echo -e "API_KEY=op://Private/personalmxapi/password\nWS_PW=op://Private/$c/password" > pathtoOPW.env
+echo -e "\nWS_PW=op://Private/$c/password" >> pathtoOPW.env
 
 
 echo "Password created for $c. Proceed with Google account creation? Y/N: "
@@ -21,3 +21,4 @@ else
     op run --env-file=pathtoOPW.env -- python3 googleCreateUser.py
 fi
 
+sed -i '' -e '$ d' pathtoOPW.env

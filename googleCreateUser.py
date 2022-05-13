@@ -8,10 +8,29 @@ from oauth2client.service_account import ServiceAccountCredentials
 load_dotenv()
 mxUser = mxGetUser()
 # Email of the Service Account
-SERVICE_ACCOUNT_EMAIL = 'julien@intricate-dryad-349319.iam.gserviceaccount.com'
+SERVICE_ACCOUNT_EMAIL = os.environ.get("CLI_EMAIL")
 
 # Path to the Service Account's Private Key file
-SERVICE_ACCOUNT_FILE_PATH = 'credentialsfile.json'
+#SERVICE_ACCOUNT_FILE_PATH = 'credentialsfile.json'
+
+
+
+
+def create_keyfile_dict():
+    variables_keys = {
+        "type": os.environ.get("ACC_TYPE"),
+        "project_id": os.environ.get("PROJ_ID"),
+        "private_key_id": os.environ.get("PRIV_KEY_ID"),
+        "private_key": os.environ.get("PRIV_KEY"),
+        "client_email": os.environ.get("CLI_EMAIL"),
+        "client_id": os.environ.get("CLI_ID"),
+        "auth_uri": os.environ.get("AUTH_URI"),
+        "token_uri": os.environ.get("TOKEN_URI"),
+        "auth_provider_x509_cert_url": os.environ.get("AUTH_PROV"),
+        "client_x509_cert_url": os.environ.get("CLI_URL")
+    }
+    return variables_keys
+
 
 def create_directory_service(user_email):
     """Build and returns an Admin SDK Directory service object authorized with the service accounts
@@ -23,9 +42,21 @@ def create_directory_service(user_email):
       Admin SDK directory service object.
     """
 
-    credentials = ServiceAccountCredentials.from_json_keyfile_name(
+    credentials = ServiceAccountCredentials.from_json_keyfile_dict(
 
-        SERVICE_ACCOUNT_FILE_PATH,
+        #create_keyfile_dict()
+        {
+        "type": os.environ.get("ACC_TYPE"),
+        "project_id": os.environ.get("PROJ_ID"),
+        "private_key_id": os.environ.get("PRIV_KEY_ID"),
+        "private_key": os.environ.get("PRIV_KEY").replace('\\n', '\n'),
+        "client_email": os.environ.get("CLI_EMAIL"),
+        "client_id": os.environ.get("CLI_ID"),
+        "auth_uri": os.environ.get("AUTH_URI"),
+        "token_uri": os.environ.get("TOKEN_URI"),
+        "auth_provider_x509_cert_url": os.environ.get("AUTH_PROV"),
+        "client_x509_cert_url": os.environ.get("CLI_URL")
+    },
         'https://www.googleapis.com/auth/admin.directory.user') #scope
 
     credentials = credentials.create_delegated(user_email)
