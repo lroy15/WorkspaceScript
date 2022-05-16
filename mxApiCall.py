@@ -21,18 +21,15 @@ def mxGetUser():
 
     #Pull info from Procedures
 
-    api_dict = response.text
-
-    parsed = json.loads(api_dict)
+    parsed = json.loads(response.text)
 
     num_of_fields = 4
     
-
-    field_array = []
+    field_data = []
 
     for x in range(num_of_fields):
     
-        field_array.append(parsed["workOrder"]["procedure"]["fields"][x]["value"]["text"])
+        field_data.append(parsed["workOrder"]["procedure"]["fields"][x]["value"]["text"])
         
     
 
@@ -43,9 +40,9 @@ def mxGetUser():
             self.department = department
             self.email = email
 
-    p1 = MxUser(field_array[0], field_array[1], field_array[2], field_array[3])
+    return MxUser(field_data[0], field_data[1], field_data[2], field_data[3])
 
-    return p1
+    
 
     
 

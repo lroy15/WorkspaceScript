@@ -10,12 +10,6 @@ mxUser = mxGetUser()
 # Email of the Service Account
 SERVICE_ACCOUNT_EMAIL = os.environ.get("CLI_EMAIL")
 
-# Path to the Service Account's Private Key file
-#SERVICE_ACCOUNT_FILE_PATH = 'credentialsfile.json'
-
-
-
-
 def create_keyfile_dict():
     variables_keys = {
         "type": os.environ.get("ACC_TYPE"),
@@ -82,5 +76,3 @@ if confirmation != 'y' :
 
 else: 
   create_directory_service('julien@ljroy.com')
-
-#create_directory_service('julien@ljroy.com')
