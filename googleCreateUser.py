@@ -48,7 +48,7 @@ def create_directory_service(user_email):
     body = { "name": 
             {"familyName":mxUser.name.split(' ')[1] , "givenName": mxUser.name.split(' ')[0]}, 
             "password": os.environ.get("WS_PW"), 
-            "primaryEmail": mxUser.email+'@ljroy.com',
+            "primaryEmail": mxUser.email+os.environ.get("DOMAIN"),
             "organizations": [
                 {
                 #"name": "Google Inc.",
@@ -67,7 +67,7 @@ def create_directory_service(user_email):
 mxUserFirstName = mxUser.name.split(' ')[0]
 mxUserLastName = mxUser.name.split(' ')[1]
 
-print(f'==User info==\nFirst Name : {mxUserFirstName}\nLast Name : {mxUserLastName}\nEmail : {mxUser.email}@ljroy.com\nTitle : {mxUser.title}\nDepartment : {mxUser.department}')
+print(f'==User info==\nFirst Name : {mxUserFirstName}\nLast Name : {mxUserLastName}\nEmail : {mxUser.email}'+os.environ.get("DOMAIN")+f'\nTitle : {mxUser.title}\nDepartment : {mxUser.department}')
 confirmation = input('Is the information correct? y/n: ')
 
 if confirmation != 'y' :
@@ -75,4 +75,4 @@ if confirmation != 'y' :
 
 
 else: 
-  create_directory_service('julien@ljroy.com')
+  create_directory_service(os.environ.get("ADM_EMAIL"))
