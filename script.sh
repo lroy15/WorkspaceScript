@@ -5,12 +5,12 @@ mxUserEmail=${mxInfo%:*}
 mxUserName=${mxInfo#*:}
 
 
-op item get "$mxUserName" --fields label=username --vault Private
-if [ "$?" -eq 0 ]
+if [ "$(op item get "$mxUserName" --fields label=username --vault Private)" ]
+#if [ "$?" -eq 0 ]
 then
-echo "Account already exists in Onepassword. Continue with Workspace account creation? y/n: "
-read wscreate
-    if [ $wscreate != y ]
+#echo "Account already exists in Onepassword. Continue with Workspace account creation? y/n: "
+read -p "Account already exists in Onepassword. Continue with Workspace account creation? y/n: " wscreate
+    if [ "$wscreate" != y ]
     then echo "Aborting Google Workspace account creation."
     else
     echo -e "WS_PW=op://Private/$mxUserName/password" >> pathtoOPW.env
@@ -24,10 +24,10 @@ else
     echo -e "WS_PW=op://Private/$mxUserName/password" >> pathtoOPW.env
 
 
-    echo "Password created for $mxUserName. Proceed with Google account creation? Y/N: "
-    read response
+    read -p "Password created for $mxUserName. Proceed with Google account creation? Y/N: " response
+    
 
-    if [ $response != y ]
+    if [ "$response" != y ]
     then
         echo "Aborting account creation."
     else
