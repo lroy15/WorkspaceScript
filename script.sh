@@ -6,24 +6,20 @@ mxUserName=${mxInfo#*:}
 
 
 if [ "$(op item get "$mxUserName" --fields label=username --vault Private)" ]
-#if [ "$?" -eq 0 ]
 then
-#echo "Account already exists in Onepassword. Continue with Workspace account creation? y/n: "
-read -p "Account already exists in Onepassword. Continue with Workspace account creation? y/n: " wscreate
+    read -p "Account already exists in Onepassword. Continue with Workspace account creation? y/n: " wscreate
     if [ "$wscreate" != y ]
-    then echo "Aborting Google Workspace account creation."
+    then 
+        echo "Aborting Google Workspace account creation."
     else
-    echo -e "WS_PW=op://Private/$mxUserName/password" >> pathtoOPW.env
-    op run --env-file=pathtoOPW.env -- python3 googleCreateUser.py
-    sed -i '' -e '$ d' pathtoOPW.env
+        echo -e "WS_PW=op://Private/$mxUserName/password" >> pathtoOPW.env
+        op run --env-file=pathtoOPW.env -- python3 googleCreateUser.py
+        sed -i '' -e '$ d' pathtoOPW.env
     fi
 else
-
     op item create --category login --title "$mxUserName" --vault Private --generate-password='letters,digits,symbols,12' username="$mxUserEmail@domain.com" 1> /dev/null 
 
     echo -e "WS_PW=op://Private/$mxUserName/password" >> pathtoOPW.env
-
-
     read -p "Password created for $mxUserName. Proceed with Google account creation? Y/N: " response
     
 
@@ -33,7 +29,5 @@ else
     else
         op run --env-file=pathtoOPW.env -- python3 googleCreateUser.py
     fi
-
     sed -i '' -e '$ d' pathtoOPW.env
-
 fi
