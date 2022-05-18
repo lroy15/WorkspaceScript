@@ -1,4 +1,6 @@
-mxInfo=`op run --env-file=.env -- python3 1passcreate.py`
+#!/bin/bash
+
+mxInfo=$(op run --env-file=.env -- python3 1passcreate.py)
 mxUserEmail=${mxInfo%:*}
 mxUserName=${mxInfo#*:}
 
@@ -17,7 +19,7 @@ read wscreate
     fi
 else
 
-    op item create --category login --title "$mxUserName" --vault Private --generate-password='letters,digits,symbols,12' username="$mxUserEmail@domain.com"
+    op item create --category login --title "$mxUserName" --vault Private --generate-password='letters,digits,symbols,12' username="$mxUserEmail@domain.com" 1> /dev/null 
 
     echo -e "WS_PW=op://Private/$mxUserName/password" >> pathtoOPW.env
 
