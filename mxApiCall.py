@@ -7,7 +7,7 @@ def mxGetUser():
     #workorder_ID = input("Enter Workorder ID: ")
     workorder_ID = str(5110369)
     #API call
-    url = "https://api.getmaintainx.com/v1/workorders/"+workorder_ID+"?expand=expenditures&expand=expenditures"
+    url = "https://api.getmaintainx.com/v1/workorders/"+workorder_ID
 
     load_dotenv()
     payload={}
